@@ -141,6 +141,7 @@ mkCommon type rec {
       name = "${pname}-${version}-deps";
       nugetDeps = packages;
     };
+    packages-list = packages;
 
     updateScript =
       let

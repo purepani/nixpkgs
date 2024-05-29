@@ -26,7 +26,7 @@ in
   dotnetConfigureHook = makeSetupHook
     {
       name = "dotnet-configure-hook";
-      deps = [ dotnet-sdk ];
+      propagatedBuildInputs = [ dotnet-sdk ];
       substitutions = {
         nugetSource = lib.optional (!dontSetNugetSource) nuget-source;
         dynamicLinker = "${stdenv.cc}/nix-support/dynamic-linker";
@@ -45,14 +45,24 @@ in
   dotnetValidateLockfileHook =  makeSetupHook
     {
       name = "dotnet-validate-lockfile-hook";
-      deps = [ jq ];
+      propagatedBuildInputs = [ jq ];
     } ./dotnet-validate-lockfile.sh;
 
   dotnetBuildHook = makeSetupHook
     {
       name = "dotnet-build-hook";
+      propagatedBuildInputs = [ dotnet-sdk ];
       substitutions = {
         inherit buildType runtimeId;
+        nugetSource = lib.optional (!dontSetNugetSource) nuget-source;
+        dynamicLinker = "${stdenv.cc}/nix-support/dynamic-linker";
+        libPath = lib.makeLibraryPath [
+          stdenv.cc.cc.lib
+          stdenv.cc.libc
+          dotnet-sdk.passthru.icu
+          zlib
+          openssl
+        ];
       };
     }
     ./dotnet-build-hook.sh;

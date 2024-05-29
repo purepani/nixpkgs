@@ -107,7 +107,7 @@ let
     then lib.intersectLists args.meta.platforms dotnet-sdk.meta.platforms
     else dotnet-sdk.meta.platforms;
   # Nuget packages provided by the SDK, these get excluded from the generated lockfile
-  sdkExclusions = writeText "${dotnet-sdk.name}-exclusions" (lib.concatStringsSep "\n" (dotnet-sdk.passthru.packages { fetchNuGet = attrs: attrs.pname; }));
+  sdkExclusions = writeText "${dotnet-sdk.name}-exclusions" (lib.concatStringsSep "\n" (dotnet-sdk.passthru.packages-list {fetchNuGet = attrs: attrs.pname;}));
 
   inherit (callPackage ./hooks {
     inherit dotnet-sdk disabledTests nuget-source dotnet-runtime runtimeDeps buildType dontSetNugetSource;

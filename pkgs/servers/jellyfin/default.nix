@@ -28,7 +28,8 @@ buildDotnetModule rec {
 
   projectFile = "Jellyfin.Server/Jellyfin.Server.csproj";
   executables = [ "jellyfin" ];
-  nugetDeps = ./nuget-deps.nix;
+  #nugetDeps = ./nuget-deps.nix;
+  nugetSha256 = lib.fakeHash;
   runtimeDeps = [
     ffmpeg
     fontconfig

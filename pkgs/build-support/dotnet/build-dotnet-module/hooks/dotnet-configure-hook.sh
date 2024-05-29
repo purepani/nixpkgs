@@ -28,7 +28,6 @@ dotnetConfigureHook() {
             -p:ContinuousIntegrationBuild=true \
             -p:Deterministic=true \
             --runtime "@runtimeId@" \
-            --source "@nugetSource@/lib" \
             ${nugetSourceFlag-} \
             ${lockfileFlag-} \
             ${parallelFlag-} \
